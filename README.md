@@ -16,3 +16,4 @@ Then create a second bucket named jwt-security-lab-logs and leave it default and
 ![Server](./images/server.png)  
 
 # CloudTrail
+Then go to CloudTrail and click on create trail. Name the trail SecurityLab-Trail and hit create. After creation, double click on it and in general details click on edit and should be able to edit. For storage location, click on create a new S3 bucket and name it jwt-security-lab-cloudtrail. Then have enabled the Log File SSE-KMS encryption and for AWS KMS key have it existing and choose the S3 Security Lab alias
