@@ -104,5 +104,14 @@ Then go and create two roles a contractor and a admin role. Click on create role
 Then create a second role like before named EC2-Admin-Role, trusted entity like before with EC2 and hit next, for policy choose the SecurityLab-S3-Admin with a description of admin access only and hit create role.   
 
 # GuardDuty
+For GuardDuty, it comes with a 30 day free trial so you can cancel it at any time. Go to GuardDuty and click on get started and then hit enable GuardDuty.  
+![Duty](./images/Screenshot%202026-04-17%20143343.png)  
 
 # AWS Config
+In AWS Config, you can click on Get STarted if its your first time and you will see this: 
+![Config](./images/config.png)  
+For recordking strategy, keep it all resouce types and then scroll down to s3 buckets and select the create new option and name it jwt-security-lab-config. Then for rules have these selected.
+![Rules](./images/rules.png)  
+
+
+# EC2 Launch
