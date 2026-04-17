@@ -112,6 +112,15 @@ In AWS Config, you can click on Get STarted if its your first time and you will 
 ![Config](./images/config.png)  
 For recordking strategy, keep it all resouce types and then scroll down to s3 buckets and select the create new option and name it jwt-security-lab-config. Then for rules have these selected.
 ![Rules](./images/rules.png)  
-
+Read-Prohibited detects public buckets, server-side enforces encryption, admin-access detects for certain policies, and volumes checks to EC2 EBS volumes. Then click on confirm. After creation should look like this: 
+![Launch](./images/config2.png) 
 
 # EC2 Launch
+In EC2 go to Instances and create two instances for the roles created earlier, Security-lab-S3-ReadOnly-Contractor and EC2-Admin-Role2. Click on launch/create instance. 
+Name the first instance SecurityLab-Contractor with Amazon Linux as the AMI, t2.micro, then scroll down to advanced settings, go to IAM instance profile and choose the ReadOnly-Contractor, then scroll up a little and go to storage and click on advanced for the dropdown menu to appear like so: 
+![Storage](./images/storage.png)  
+For encrypted section, change it to encrypted and then click on launch instance.  
+The create a key pair section will pop, so click on create new key pair and name it SecurityLab-KeyPair with RSA and .pem and it launch instance.
+Then create a second instance for EC2-Admin-Role2 with the same settings as before and hit launch instance. 
+
+# Test Data Creation
