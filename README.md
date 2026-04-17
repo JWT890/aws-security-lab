@@ -124,3 +124,24 @@ The create a key pair section will pop, so click on create new key pair and name
 Then create a second instance for EC2-Admin-Role2 with the same settings as before and hit launch instance. 
 
 # Test Data Creation
+In the command line on the host machine go and create echo files that will be used. 
+Type echo "Public dataset - weather data" > weather.csv, then echo "CONFIDENTIAL: API Key randomnumbers", then echo "CLASSIFIED: Satellite imagery coordinates" > classified-data.txt
+Make sure to also configure the aws profile on the host machine to the kms-admin for to work and to also create access keys to sign in as well. To save and change over type aws sts get-caller-identity to see if you need to change or not, if you do type $env:AWS_PROFILE = "kms-admin" to verify.  
+Then go to KMS key created and edit the key policy to prevent this error from popping up: 
+![Error](./images/keyerror.png) 
+By adding the policy: 
+{ 
+    "Sid": "AllowKMSAdmin", 
+    "Effect": "Allow",  
+    "Principal": {  
+        "AWS": "arn:aws:iam::345798730060:user/kms-admin" 
+    },  
+    "Action": [ 
+        "kms:GenerateDataKey",  
+        "kms:Decrypt",  
+        "kms:Encrypt" 
+    ],  
+    "Resource": "*" 
+} 
+Then go to kms-admin in IAM and attach the AmazonS3FullAccess policy and hit save.  
+Then back in the host, type aws s3 cp weather.csv s3://jwt-security-lab-datav2/public/weather.csv and it should upload. 
