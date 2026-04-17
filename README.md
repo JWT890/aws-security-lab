@@ -23,6 +23,85 @@ Then go to CloudTrail and click on create trail. Name the trail SecurityLab-Trai
 Then go to management events and click on edit and choose the read and write permissions or check to see if both are enabled
 
 # IAM
+Go to IAM and in the left pane choose policies and click on create policy and for the policy editor go to JSON and put this into it:    
+{   
+  "Version": "2012-10-17",  
+  "Statement": [    
+    {   
+      "Sid": "ListBucket",  
+      "Effect": "Allow",    
+      "Action": "s3:ListBucket",    
+      "Resource": "arn:aws:s3:::jwt-security-lab-data-v2",  
+      "Condition": {    
+        "StringLike": { 
+          "s3:prefix": ["public/*"] 
+        }   
+      } 
+    },  
+    {   
+      "Sid": "ReadPublicPrefix",    
+      "Effect": "Allow",    
+      "Action": [   
+        "s3:GetObject", 
+        "s3:GetObjectVersion"   
+      ],    
+      "Resource": "arn:aws:s3:::jwt-security-lab-data-v2/public/*"  
+    },  
+    {   
+      "Sid": "DecryptWithKMS",  
+      "Effect": "Allow",    
+      "Action": [   
+        "kms:Decrypt",  
+        "kms:DescribeKey"   
+      ],    
+      "Resource": "arn:aws:kms:us-east-1:ACCOUNT_ID:key/KEY_ID" 
+    }   
+  ] 
+}   
+In the resouce lin change ACCOUNT_ID to yours and the KEY_ID to the key created earlier, then hit next and name it SecurityLab-S3-ReadOnly-Contractor then hit create policy.
+Then go and create another policy that is Admin with Full Control but with restrictions and like earlier and put this into it:  
+{   
+  "Version": "2012-10-17",  
+  "Statement": [    
+    {   
+      "Sid": "FullS3Access",    
+      "Effect": "Allow",    
+      "Action": "s3:*", 
+      "Resource": [ 
+        "arn:aws:s3:::jwt-security-lab-data-v2",    
+        "arn:aws:s3:::jwt-security-lab-data-v2/*"   
+      ] 
+    },  
+    {   
+      "Sid": "KMSAccess",   
+      "Effect": "Allow",    
+      "Action": [   
+        "kms:Decrypt",  
+        "kms:Encrypt",  
+        "kms:GenerateDataKey",  
+        "kms:DescribeKey"   
+      ],    
+      "Resource": "arn:aws:kms:us-east-1:ACCOUNT_ID:key/KEY_ID" 
+    },  
+    {   
+      "Sid": "DenyPublicBucketChanges", 
+      "Effect": "Deny", 
+      "Action": [   
+        "s3:PutBucketPublicAccessBlock",    
+        "s3:PutBucketPolicy"    
+      ],    
+      "Resource": "arn:aws:s3:::jwt-security-lab-data-v2",  
+      "Condition": {    
+        "StringNotEquals": {    
+          "aws:PrincipalArn": "arn:aws:iam::ACCOUNT_ID:user/SecurityAdmin"  
+        }   
+      } 
+    }   
+  ] 
+}   
+In resouce line do like before, hit next and name the policy SecurityLab-S3-Admin and then click on create policy. 
+Then go and create two roles a contractor and a admin role. Click on create role and for trusted entity type choose AWS Service, then for use case EC2, then hit next and for policy choose the SecurityLab-S3-ReadOnly-Contractor and hit next. For role name name it Security-ReadOnly-Contractor with a description that says read only for contractors and hit create role. 
+Then create a second role like before named EC2-Admin-Role, trusted entity like before with EC2 and hit next, for policy choose the SecurityLab-S3-Admin with a description of admin access only and hit create role.   
 
 # GuardDuty
 
