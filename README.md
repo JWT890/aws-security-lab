@@ -149,3 +149,10 @@ Then for the second type aws s3 cp api-credentials.txt s3://jwt-security-lab-dat
 Then for the third, type aws s3 cp classified-data.txt s3://jwt-security-lab-datav2/restricted/classified-data.txt and it should upload.  
 
 # Least Privlege Testing
+First go create a normal-user user that has AmazonS3ReadOnlyAccess permission and in the kms key policy add this: 
+![User](./images/user.png)  
+Then hit save changes.  
+And with AWS configure change the user by typing $env:AWS_PROFILE = "" and entering in the access key id and secret key and us-east-1.  
+For the first test type aws s3 cp://jwt-security-lab-datav2/public/weather.csv . --profile normal-user which should pop up the message of successful download. Then type cat weather.csv to confirm that the data can be seen.  
+For the second test type aws s3 cp s3://jwt-security-datav2/restricted/api-credentials.txt and should see this error: 
+![Error](./images/error.png)  
