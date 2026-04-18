@@ -68,8 +68,8 @@ Then go and create another policy that is Admin with Full Control but with restr
       "Effect": "Allow",    
       "Action": "s3:*", 
       "Resource": [ 
-        "arn:aws:s3:::jwt-security-lab-data-v2",    
-        "arn:aws:s3:::jwt-security-lab-data-v2/*"   
+        "arn:aws:s3:::jwt-security-lab-datav2",    
+        "arn:aws:s3:::jwt-security-lab-datav2/*"   
       ] 
     },  
     {   
@@ -90,7 +90,7 @@ Then go and create another policy that is Admin with Full Control but with restr
         "s3:PutBucketPublicAccessBlock",    
         "s3:PutBucketPolicy"    
       ],    
-      "Resource": "arn:aws:s3:::jwt-security-lab-data-v2",  
+      "Resource": "arn:aws:s3:::jwt-security-lab-datav2",  
       "Condition": {    
         "StringNotEquals": {    
           "aws:PrincipalArn": "arn:aws:iam::ACCOUNT_ID:user/SecurityAdmin"  
@@ -164,6 +164,77 @@ For the first test type aws s3 cp s3://jwt-security-lab-datav2/restricted/classi
 ![Data](./images/data.png)  
 Next type aws s3 rm s3://jwt-security-lab-datav2/public/weather.csv which should delete it
 
-To assume either of the two roles, EC2-Admin2 and Security-ReadOnly-Contracter
+To assume either of the two roles, EC2-Admin2 and Security-ReadOnly-Contracter you will need to go back and edit their policies and update the KMS policy and bucket.
+For EC2-Admin2:
+Go to kms-admin and add the policy:   
+{ 
+    "Version": "2012-10-17",  
+    "Statement": [  
+        { 
+            "Effect": "Allow",  
+            "Action": "sts:AssumeRole", 
+            "Resource": "arn:aws:iam::345798730060:role/EC2-Admin-Role2"  
+        } 
+    ] 
+} 
+Then go and update the trust relationship and add this: 
+{ 
+    "Version": "2012-10-17",  
+    "Statement": [  
+        { 
+            "Effect": "Allow",  
+            "Principal": {  
+                "Service": "ec2.amazonaws.com"  
+            },  
+            "Action": "sts:AssumeRole"  
+        },  
+        { 
+            "Effect": "Allow",  
+            "Principal": {  
+                "AWS": "arn:aws:iam::345798730060:user/fargate-cli-user"  
+            },  
+            "Action": "sts:AssumeRole"  
+        } 
+    ] 
+}
+Then in the command line type aws sts assume-role --role-arn "arn:aws:iam::345798730060:role/EC2-Admin-Role2" --role-session-name "my-session"  
+Which should output further info needed such as AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_SESSION_TOKEN by starting with $env for each. 
+Then go back to KMS key and add this policy:  
+{ 
+    "Sid": "Allow EC2-Admin-Role2 to use key",  
+    "Effect": "Allow",  
+    "Principal": {  
+        "AWS": "arn:aws:iam::345798730060:role/EC2-Admin-Role2" 
+    },  
+    "Action": [ 
+        "kms:GenerateDataKey*", 
+        "kms:Decrypt",  
+        "kms:DescribeKey" 
+    ],  
+    "Resource": "*" 
+}  
+Then go back to add permissions in IAM and create a inline policy and add this: 
+{ 
+    "Version": "2012-10-17",  
+    "Statement": [  
+        { 
+            "Effect": "Allow",  
+            "Action": [ 
+                "s3:PutObject", 
+                "s3:GetObject", 
+                "s3:DeleteObject" 
+            ],  
+            "Resource": "arn:aws:s3:::jwt-security-lab-datav2/*"  
+        },  
+        { 
+            "Effect": "Allow",  
+            "Action": "s3:ListBucket",  
+            "Resource": "arn:aws:s3:::jwt-security-lab-datav2"  
+        } 
+    ] 
+} For the resouce have it set correctly with the arn, accountID key/followed by some other info
+Then clear the $env variables and reassume the role
+For Security-ReadOnly-Contracter:
+
 
 # Vulnerability Introduced
