@@ -156,3 +156,14 @@ And with AWS configure change the user by typing $env:AWS_PROFILE = "" and enter
 For the first test type aws s3 cp://jwt-security-lab-datav2/public/weather.csv . --profile normal-user which should pop up the message of successful download. Then type cat weather.csv to confirm that the data can be seen.  
 For the second test type aws s3 cp s3://jwt-security-datav2/restricted/api-credentials.txt and should see this error: 
 ![Error](./images/error.png)  
+Error means that access was not allowed due to least privelege principle. Should also work for the Security-ReadOnly-Contractor role after being given the correct permissions.
+For the third test type aws s3 ls s3://jwt-security-lab-datav2/restricted/ and should see this: 
+![Error2](./images/error2.png)  
+Then switch over the kms-admin user and test once again by typing $env:AWS_PROFILE = "kms-admin"
+For the first test type aws s3 cp s3://jwt-security-lab-datav2/restricted/classified-data.txt . which should download and be able to see the contents by typing cat classified-data.txt:  
+![Data](./images/data.png)  
+Next type aws s3 rm s3://jwt-security-lab-datav2/public/weather.csv which should delete it
+
+To assume either of the two roles, EC2-Admin2 and Security-ReadOnly-Contracter
+
+# Vulnerability Introduced
