@@ -145,3 +145,7 @@ By adding the policy:
 } 
 Then go to kms-admin in IAM and attach the AmazonS3FullAccess policy and hit save.  
 Then back in the host, type aws s3 cp weather.csv s3://jwt-security-lab-datav2/public/weather.csv and it should upload. 
+Then for the second type aws s3 cp api-credentials.txt s3://jwt-security-lab-datav2/restricted/api-credentials.txt and it should upload.
+Then for the third, type aws s3 cp classified-data.txt s3://jwt-security-lab-datav2/restricted/classified-data.txt and it should upload.  
+
+# Least Privlege Testing
