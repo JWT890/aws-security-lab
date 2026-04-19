@@ -321,3 +321,14 @@ Then go to AWS config and check for non-compliant resources like so:
 ![Rules](./images/comp.png) 
 ![Rules2](./images/rules2.png)  
 Then in the contractor instance role type for ($i = 1; $i -le 100; $i++) { aws s3 ls } which should pop up with 100 or so access denied errors which will take some minutes.
+Can also run this one to find more: 1..100 | ForEach-Object { aws s3 ls; aws iam list-users; aws ec2 describe-instances } 
+After waiting a few minutes, the findings should pop up:  
+![Findings2](./images/findings2.png)  
+Details of the high vulnerability:  
+![Result](./images/result.png)  
+![Result2](./images/result2.png)  
+Then go to CloudTrail to Event History and download the csv for the event history and go find the specific events of PutBucketPolicy and Stop Logging, preferrably within the few hours.  
+For PutBucketPolicy:  
+![Bucket](./images/PutBucketPolicy.png) 
+For StopLogging:  
+![Logging](./images/logging.png)  
