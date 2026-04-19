@@ -307,3 +307,10 @@ For the third vulnerability, go to the Contractor role -> trust relationships an
 The red underline for the * means overly permissive but save anyway. for it to work properly change it to AWS: "*" since it will interpert Service version differently. 
 For the fourth vulnerability, go to CloudTrail -> SecurityLab-Trail and tell it to stop logging.
 For the fifth vulnerability, go to EC2 and launch a instance that is vulnerable with no encryption in the storage section.  
+
+# Advanced Detection with IAM Access Analyzer
+Go to the IAM Access Analyzer and see this screen:  
+![Logs](./images/log.png) 
+Click on the IAM Access Analyzer hyperlink which should take you to this page:  
+![Access](./images/access.png)  
+Then click on create analyzer. For analysis select the resource analysis, name it test and for zone of trust current account and hit create analyzer. Then go and wait I guess for about 30 minutes.
