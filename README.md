@@ -162,7 +162,9 @@ For the third test type aws s3 ls s3://jwt-security-lab-datav2/restricted/ and s
 Then switch over the EC2-Admin role and test once again by typing $env:AWS_PROFILE = "", $env:AWS_PROFILE = "", then $env:AWS_ACCESS_KEY_ID = "", AWS_SECRET_ACCESS_KEY = "", AWS_SESSION_TOKEN = "", then ws sts assume-role --role-arn "arn:aws:iam::345798730060:role/EC2-Admin-Role2" --role-session-name "my-session2". Which should output the data needed for temp access. 
 For the first test type aws s3 cp s3://jwt-security-lab-datav2/restricted/classified-data.txt . which should download and be able to see the contents by typing cat classified-data.txt:  
 ![Data](./images/data.png)  
-Next type aws s3 rm s3://jwt-security-lab-datav2/public/weather.csv which should delete it
+Next type aws s3 rm s3://jwt-security-lab-datav2/public/weather.csv which should delete it as the second test.  
+For the third test type aws s3api put-public-access-block --bucket jwt-security-lab-datav2 --public-access-block-configuration BlockPublicAcls=false which should output a access denied message.  
+![Access](./images/access.png)  
 
 To assume either of the two roles, EC2-Admin2 and Security-ReadOnly-Contracter you will need to go back and edit their policies and update the KMS policy and bucket.
 For EC2-Admin2:
@@ -293,3 +295,6 @@ Then clear the $env variables and assume the by typing: aws sts assume-role --ro
 Then enter the info for the essential $env variables. After that everything should work correctly like above.
 
 # Vulnerability Introduced
+For the vulnerabilites, the ones that will be tested will be relating to KMS key policy misconfiguration, S3 Bucket Policy Cross Connect, Overally permissive IAM Assumerole Trust, CloudTrail disabled, Unencrypted EBS Volume.  
+Vulnerability 1 relates to NIST 800-53 SC-12, 2 related to AC-3 for access enforcement, 3 to AC-2 for account management, 4 to AU-2 and AU-9 for audit events and information protection, and 5 to SC-28 for protection of info at rest.  
+
