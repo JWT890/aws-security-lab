@@ -298,3 +298,12 @@ Then enter the info for the essential $env variables. After that everything shou
 For the vulnerabilites, the ones that will be tested will be relating to KMS key policy misconfiguration, S3 Bucket Policy Cross Connect, Overally permissive IAM Assumerole Trust, CloudTrail disabled, Unencrypted EBS Volume.  
 Vulnerability 1 relates to NIST 800-53 SC-12, 2 related to AC-3 for access enforcement, 3 to AC-2 for account management, 4 to AU-2 and AU-9 for audit events and information protection, and 5 to SC-28 for protection of info at rest.  
 
+To Test the first vulnerability, go to the SecurityLab-S3-Key and go its policies and add a statement allowing for Public decryption
+![1](./images/vulner1.png)  
+For the second vulnerablity, go to the jwt-security-lab-datav2 bucket -> permissions and to bucket policy and add a statement that would disable the blocking of public access. Start by going to edit bdit block public access and turn it off and add thsi policy afterwards: 
+![2](./images/vulner2.png)  
+For the third vulnerability, go to the Contractor role -> trust relationships and click on edit and change it to this:  
+![3](./images/vulner3.png)  
+The red underline for the * means overly permissive but save anyway. for it to work properly change it to AWS: "*" since it will interpert Service version differently. 
+For the fourth vulnerability, go to CloudTrail -> SecurityLab-Trail and tell it to stop logging.
+For the fifth vulnerability, go to EC2 and launch a instance that is vulnerable with no encryption in the storage section.  
