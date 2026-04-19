@@ -313,4 +313,11 @@ Go to the IAM Access Analyzer and see this screen:
 ![Logs](./images/log.png) 
 Click on the IAM Access Analyzer hyperlink which should take you to this page:  
 ![Access](./images/access.png)  
-Then click on create analyzer. For analysis select the resource analysis, name it test and for zone of trust current account and hit create analyzer. Then go and wait I guess for about 30 minutes.
+Then click on create analyzer. For analysis select the resource analysis, name it test and for zone of trust current account and hit create analyzer. Then go and wait I guess for a few minutes. 
+After a few minutes, some findings should appear with the important ones being up top:  
+![Few](./images/findings.png) 
+First alert relates to the S3 bucket being accessible to all and second being every IAM role being overly permissive. The rest of the alerts in the screenshot are not tied to this lab.  
+Then go to AWS config and check for non-compliant resources like so:  
+![Rules](./images/comp.png) 
+![Rules2](./images/rules2.png)  
+Then in the contractor instance role type for ($i = 1; $i -le 100; $i++) { aws s3 ls } which should pop up with 100 or so access denied errors which will take some minutes.
