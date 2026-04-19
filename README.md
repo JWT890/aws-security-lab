@@ -345,16 +345,16 @@ Then go back to Config and re-evaluate or to a automatic scan and in Access Anal
 
 # NIST 800-53 Control Mapping
 AC-2 Relates to Account Management - Seperate roles for admin and contractor and trust policy 
-AC-3 Access Enforcement - S3 Block Public Access and IAM deny public access
-AC-6 Least Privilege - Prefix defined policies with condition keys
-AU-2 Audit Events = CloudTrail enabled
-AU-3 Audit Record Content - S3 Access logs with different functions
-AU-9 Audit Protection - CloudTrail encryption with KMS
-SC-12 - Cryptographic Key Management - KMS customer managed keys with policy restriction
-SC-13 - Cryptographic Protection - AES-256 encryption via KMS for S3 and EBS  
-SC-28 - Protection at Rest | SSE-KMS on S3, EBS encryption required by Config
-SI-4 | Information System Monitoring | GuardDuty and Config 
-RA-5 - VUlnerability Scanning with Access Analyzer and Config
+AC-3 Access Enforcement - S3 Block Public Access and IAM deny public access 
+AC-6 Least Privilege - Prefix defined policies with condition keys  
+AU-2 Audit Events = CloudTrail enabled  
+AU-3 Audit Record Content - S3 Access logs with different functions 
+AU-9 Audit Protection - CloudTrail encryption with KMS  
+SC-12 - Cryptographic Key Management - KMS customer managed keys with policy restriction  
+SC-13 - Cryptographic Protection - AES-256 encryption via KMS for S3 and EBS    
+SC-28 - Protection at Rest | SSE-KMS on S3, EBS encryption required by Config 
+SI-4 | Information System Monitoring | GuardDuty and Config   
+RA-5 - VUlnerability Scanning with Access Analyzer and Config 
 
 # Closing
 Securing cloud systems is important and requires great attention to detail and careful planning to ensure that systems are secure based off the operational efficiences and scaling, aligning, and envisoning for the company. Knowing how to secure cloud architecture is important for companies moving to the cloud.
